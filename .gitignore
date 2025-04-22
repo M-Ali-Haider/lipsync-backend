@@ -2,3 +2,4 @@
 /config/fyp-translation-343ed05af2bb.json
 /config/*.json
 /media/*
+/api/model.pth

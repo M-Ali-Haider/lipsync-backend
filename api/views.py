@@ -6,6 +6,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from django.core.files.storage import default_storage
 from .transcription import transcription
 from .translate import translation
+import subprocess
 
 # Create your views here.
 class VideoUploadView(APIView):
@@ -26,8 +27,11 @@ class VideoUploadView(APIView):
             return Response({"error":"Transcription failed."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         # Step 2: Translation
-        urdu_text = translation(txt_output_path,file_path)
-
+        urdu_text = translation(transcription_text,file_path)
+        
+        # Step 3: TTS Model Inference
+        subprocess.run(["python","interface.py"],check=True)
+        
         return Response({
             "message": "Video uploaded successfully",
             "file_path": file_path,

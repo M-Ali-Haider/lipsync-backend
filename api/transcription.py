@@ -94,15 +94,6 @@ def transcription(video_path):
 
     formatted_transcript, full_result = transcribe_video(
         API_KEY, video_path, output_json=True,json_output_path=json_output_path
-    )
-
-    if formatted_transcript:
-        with open(txt_output_path, "w") as f:
-            f.write(formatted_transcript)
-        print("Transcription (text only) complete!")
-
-        if full_result:
-            print(f"Total Speakers Detected: {len(set(utt.get('speaker') for utt in full_result.get('utterances', [])))}")
-        
+    )    
     return formatted_transcript, full_result, txt_output_path
 

@@ -45,7 +45,10 @@ class TranslationService:
             return text
 
 
-def translate_transcript(input_file, output_file, credentials_path=None):
+def translate_transcript(transcription_text, 
+                        #  output_file, 
+                         credentials_path=None
+    ):
     """
     Translate a transcript file to Urdu
 
@@ -56,26 +59,18 @@ def translate_transcript(input_file, output_file, credentials_path=None):
     """
     translator = TranslationService(credentials_path)
 
-    try:
-        with open(input_file, 'r', encoding='utf-8') as f:
-            transcript = f.read()
-    except FileNotFoundError:
-        print(f"Input file {input_file} not found.")
-        return
+    # try:
+    #     with open(input_file, 'r', encoding='utf-8') as f:
+    #         transcript = f.read()
+    # except FileNotFoundError:
+    #     print(f"Input file {input_file} not found.")
+    #     return
 
-    translated_transcript = translator.translate_text(transcript)
-
-    try:
-        with open(output_file, 'w', encoding='utf-8') as f:
-            f.write(translated_transcript)
-        print(f"Transcript translated and saved to {output_file}")
-    except Exception as e:
-        print(f"Error writing translated transcript: {e}")
-    
+    translated_transcript = translator.translate_text(transcription_text)
     return translated_transcript
 
 
-def translation(txt_output_path,video_path):
+def translation(transcription_text,video_path):
     CREDENTIALS_PATH = os.path.join(settings.BASE_DIR,'config','fyp-translation-343ed05af2bb.json') 
 
 
@@ -86,12 +81,11 @@ def translation(txt_output_path,video_path):
     os.makedirs(output_dir, exist_ok=True)
 
     # Define file paths
-    urdu_txt_output_path = os.path.join(output_dir, "urdu_transcript_text_only.txt")
+    # urdu_txt_output_path = os.path.join(output_dir, "urdu_transcript_text_only.txt")
    
-
     urdu_text = translate_transcript(
-        input_file=txt_output_path,
-        output_file=urdu_txt_output_path,
+        transcription_text=transcription_text,
+        # output_file=urdu_txt_output_path,
         credentials_path=CREDENTIALS_PATH
     )
     return urdu_text
